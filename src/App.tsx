@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import BoardViewport from "./ui/BoardViewport";
 import { v4 as uuid } from "uuid";
 import { CityData, cities as cityData, CubeColor } from "./data/data";
-import { Network } from "./infrastructure/Network";
+import { Network } from "./domain/Network";
 import { Player } from "./domain/Player";
 import { GameState } from "./domain/GameState";
 
@@ -14,9 +14,10 @@ function App() {
     new Player( uuid(), "Player 2", "Atlanta", "/pawn-blue.jpg" ),
   ]);
   const [network, setNetwork] = useState<Network>(new Network(cityData));
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const gamestate = useMemo(
-  () => new GameState(players, 0, network),
-  [players, network]
+  () => new GameState(players, currentPlayerIndex, network),
+  [players, currentPlayerIndex, network]
   );
 
   const [movingId, setMovingId] = useState<string | null>(null);
@@ -36,7 +37,6 @@ function App() {
 
       // Begin animation
       const pid = active.id;
-      console.log("Animating move for", pid, "to", targetCityName);
       setMovingId(pid);
 
       // Start at origin
@@ -59,7 +59,6 @@ function App() {
           const copy = [...latest];
           const idx = copy.findIndex((p) => p.id === pid);
           if (idx >= 0) copy[idx] = { ...copy[idx], location: targetCityName };
-          console.log("PLAYER", copy[idx])
           return copy;
         });
         setMovingId(null);

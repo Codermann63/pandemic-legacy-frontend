@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import Board from "./Board";
 import { CityData, CubeColor } from "../data/data";
-import { Network } from "../infrastructure/Network";
+import { Network } from "../domain/Network";
 import { Player } from "../domain/Player";
 import { GameState } from "../domain/GameState";
 

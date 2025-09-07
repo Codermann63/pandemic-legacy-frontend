@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import CityView from "./CityView";
 import PlayerLayer from "./PlayerLayer";
 import { CityData, CubeColor } from "../data/data";
-import { Network } from "../infrastructure/Network";
+import { Network } from "../domain/Network";
 import Roads from "./Roads";
 import { City } from "../domain/City";
 import { GameState } from "../domain/GameState";
@@ -39,7 +39,7 @@ export default function Board({ gameState, onMove, onTreat, movingId, visualPos,
         <CityView
           key={city.name}
           city={city}
-          gameState={gameState}
+          players={gameState.players}
           onMove={onMove}
           onTreat={onTreat}
           movingId={movingId}

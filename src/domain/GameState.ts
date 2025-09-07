@@ -1,4 +1,4 @@
-import { Network } from "../infrastructure/Network";
+import { Network } from "./Network";
 import { Player } from "./Player";
 
 export class GameState {

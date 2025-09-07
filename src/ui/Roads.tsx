@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import CityView from "./CityView";
 import PlayerLayer from "./PlayerLayer";
 import { CityData, CubeColor } from "../data/data";
-import { Network } from "../infrastructure/Network";
+import { Network } from "../domain/Network";
 
 type RoadProps = {
   network: Network;

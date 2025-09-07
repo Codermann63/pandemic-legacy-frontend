@@ -6,13 +6,13 @@ import { GameState } from "../domain/GameState";
 
 type CityViewProps = {
   city: City;
-  gameState: GameState;
+  players: Player[];
   onMove: (cityName: string) => void;
   onTreat: (cityName: string, color: CubeColor) => void;
   movingId: string | null;
 };
 
-export default function CityView({ city, gameState, onMove, onTreat, movingId }: CityViewProps) {
+export default function CityView({ city, players, onMove, onTreat, movingId }: CityViewProps) {
   const visibleCubes = Object.entries(city.cubes).filter(([, count]) => count !== 0);
 
   return (
@@ -34,8 +34,7 @@ export default function CityView({ city, gameState, onMove, onTreat, movingId }:
           gap: "5px",
         }}
       >
-        {gameState.players.filter((p) => p.location === city.name && p.id !== movingId).map((p) => {
-          console.log(p, city.name);
+        {players.filter((p) => p.location === city.name && p.id !== movingId).map((p) => {
           return (
             <img
               key={p.id}
