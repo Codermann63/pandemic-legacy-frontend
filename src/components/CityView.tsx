@@ -1,16 +1,17 @@
 import React from "react";
 import { CityData, CubeColor } from "../data/cities";
+import { City } from "../domain/City";
 
-type CityProps = {
+type CityViewProps = {
   key: string;
-  city: CityData;
+  city: City;
   players: Player[];
   onMove: (cityName: string) => void;
   onTreat: (cityName: string, color: CubeColor) => void;
   movingId: string | null;
 };
 
-export default function City({ key, city, players, onMove, onTreat, movingId }: CityProps) {
+export default function CityView({ key, city, players, onMove, onTreat, movingId }: CityViewProps) {
   const cityPlayers = players.filter((p) => p.location === city.name).filter(p => p.id !== movingId);
   const visibleCubes = Object.entries(city.cubes).filter(([, count]) => count !== 0);
 

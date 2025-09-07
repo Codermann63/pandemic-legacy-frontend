@@ -1,11 +1,11 @@
-// src/components/BoardViewport.js
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import Board from "./Board";
 import { CityData, CubeColor } from "../data/cities";
+import { Network } from "../infrastructure/Network";
 
 type BoardViewportProps = {
   players: Player[];
-  cities: CityData[];
+  network: Network;
   onMove: (cityName: string) => void;
   onTreat: (cityName: string, cubeColor: CubeColor) => void;
   movingId: string | null;
@@ -13,7 +13,7 @@ type BoardViewportProps = {
   animDuration?: number;
 };
 
-export default function BoardViewport({ players, cities, onMove, onTreat, movingId, visualPos, animDuration = 600 }: BoardViewportProps) {
+export default function BoardViewport({ players, network, onMove, onTreat, movingId, visualPos, animDuration = 600 }: BoardViewportProps) {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
@@ -176,7 +176,7 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
           >
             <Board
               players={players}
-              cities={cities}
+              network={network}
               onMove={onMove}
               onTreat={onTreat}
               movingId={movingId}

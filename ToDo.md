@@ -1,22 +1,42 @@
 # Domain
-[] City.ts
-[] Player.ts
-[] Network.ts
+[] City
+[] Player
+[x] Network
 
 # Services
-[] PlayerAnimationController.ts
-[] Camera.ts
+[] PlayerAnimationController
+[] Camera
 
 # Hooks
-[] usePlayerAnimation.ts
-[] useCamera.ts
+[] usePlayerAnimation
+[] useCamera
 
 # Components
-[App]
+[] App
 
 # Config
-[] board.ts
-[] cities.ts
+[] board
+[] cities
 
 
-# Cube enum
+# Cube enum?
+
+
+src/
+  domain/
+    City.ts
+    Player.ts
+    Graph.ts            roads rules
+  services/
+    PlayerAnimationController.ts
+    PanZoomController.ts
+  hooks/
+    usePlayerAnimation.ts
+    usePanZoom.ts
+  config/board.ts
+  components/
+    App.tsx
+    BoardViewport.tsx
+    Board.tsx
+    City.tsx
+    PlayerLayer.tsx

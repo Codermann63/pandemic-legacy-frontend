@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import BoardViewport from "./components/BoardViewport";
 import { v4 as uuid } from "uuid";
 import { CityData, cities as cityData, CubeColor } from "./data/cities";
+import { Network } from "./infrastructure/Network";
 
 const ANIM_MS = 600;
 
@@ -10,25 +11,19 @@ function App() {
     { id: uuid(), name: "Player 1", location: "Atlanta", pawn: "/pawn-red.png" },
     { id: uuid(), name: "Player 2", location: "Atlanta", pawn: "/pawn-blue.png" },
   ]);
-  const [cities, setCities] = useState<CityData[]>(cityData);
+  const [network, setNetwork] = useState<Network>(new Network(cityData));
 
   const [movingId, setMovingId] = useState<string | null>(null);
   const [visualPos, setVisualPos] = useState({}); // { [playerId]: {x,y} }
 
-  const cityByName = useMemo(() => {
-    const m = new Map();
-    cities.forEach((c) => m.set(c.name, c));
-    return m;
-  }, [cities]);
-
   const handleMove = (targetCityName: string) => {
     setPlayers((prev) => {
       const arr = [...prev];
-      const active = arr[0]; // demo: Player 1 is active
-      const fromCity = cityByName.get(active.location);
-      const toCity = cityByName.get(targetCityName);
+      const active = arr[0]; // TODO: change - demo: Player 1 is active
+      const fromCity = network.cities.get(active.location);
+      const toCity = network.cities.get(targetCityName);
       // Guard: must have road
-      if (!fromCity || !toCity || !fromCity.connections.includes(targetCityName)) {
+      if (!fromCity || !toCity || !network.areAdjecent(fromCity.name,targetCityName)) {
         console.warn(`No road from ${fromCity?.name} to ${targetCityName}`);
         return arr;
       }
@@ -68,15 +63,11 @@ function App() {
   };
 
   const handleTreat = (cityName: string, color: CubeColor) => {
-    setCities((prev) =>
-      prev.map((c) => {
-        if (c.name === cityName) {
-          const cubes = { ...c.cubes };
-          if (cubes[color] > 0) cubes[color] -= 1;
-          return { ...c, cubes };
-        }
-        return c;
-      })
+    setNetwork((prev) =>{
+      if (!prev.cities.has(cityName)) alert("Unknown city during treat" + cityName);
+      if (prev.cities.get(cityName)!.cubes[color] > 0) prev.cities.get(cityName)!.cubes[color] -= 1;
+      return prev;  
+    }
     );
   };
 
@@ -85,7 +76,7 @@ function App() {
       <h1 style={{ textAlign: "center" }}>Pandemic Game</h1>
       <BoardViewport
         players={players}
-        cities={cities}
+        network={network}
         onMove={handleMove}
         onTreat={handleTreat}
         movingId={movingId}
