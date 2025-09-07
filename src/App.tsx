@@ -1,17 +1,23 @@
 import React, { useMemo, useState } from "react";
-import BoardViewport from "./components/BoardViewport";
+import BoardViewport from "./ui/BoardViewport";
 import { v4 as uuid } from "uuid";
-import { CityData, cities as cityData, CubeColor } from "./data/cities";
+import { CityData, cities as cityData, CubeColor } from "./data/data";
 import { Network } from "./infrastructure/Network";
+import { Player } from "./domain/Player";
+import { GameState } from "./domain/GameState";
 
 const ANIM_MS = 600;
 
 function App() {
   const [players, setPlayers] = useState([
-    { id: uuid(), name: "Player 1", location: "Atlanta", pawn: "/pawn-red.png" },
-    { id: uuid(), name: "Player 2", location: "Atlanta", pawn: "/pawn-blue.png" },
+    new Player( uuid(), "Player 1", "Atlanta", "/pawn-red.png" ),
+    new Player( uuid(), "Player 2", "Atlanta", "/pawn-blue.jpg" ),
   ]);
   const [network, setNetwork] = useState<Network>(new Network(cityData));
+  const gamestate = useMemo(
+  () => new GameState(players, 0, network),
+  [players, network]
+  );
 
   const [movingId, setMovingId] = useState<string | null>(null);
   const [visualPos, setVisualPos] = useState({}); // { [playerId]: {x,y} }
@@ -53,11 +59,11 @@ function App() {
           const copy = [...latest];
           const idx = copy.findIndex((p) => p.id === pid);
           if (idx >= 0) copy[idx] = { ...copy[idx], location: targetCityName };
+          console.log("PLAYER", copy[idx])
           return copy;
         });
         setMovingId(null);
       }, ANIM_MS);
-
       return arr; // keep logical location at origin until animation ends
     });
   };
@@ -75,8 +81,7 @@ function App() {
     <div>
       <h1 style={{ textAlign: "center" }}>Pandemic Game</h1>
       <BoardViewport
-        players={players}
-        network={network}
+        gameState={gamestate}
         onMove={handleMove}
         onTreat={handleTreat}
         movingId={movingId}

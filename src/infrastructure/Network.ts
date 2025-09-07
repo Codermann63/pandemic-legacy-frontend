@@ -1,4 +1,4 @@
-import { CityData } from "../data/cities";
+import { CityData } from "../data/data";
 import { City } from "../domain/City";
 
 export class Network {

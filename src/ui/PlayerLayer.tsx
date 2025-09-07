@@ -1,4 +1,5 @@
 import React from "react";
+import { Player } from "../domain/Player";
 
 type PlayerLayerProps = {
     movingId: string | null;
@@ -15,7 +16,7 @@ export default function PlayerLayer({ movingId, players, visualPos, duration = 6
     if (!player || !pos) return null;
     const r = (
         <img
-        src={player.pawn}
+        src={player.img}
         alt={player.name}
         title={player.name}
         style= {{

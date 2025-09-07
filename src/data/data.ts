@@ -21,13 +21,13 @@ export type Cubes = Record<CubeColor, number>;
 
 export const cities: CityData[] = [
   // --- Blue cities ---
-  new CityData("San Francisco", "blue", ["Los Angeles","Chicago","Tokyo","Manila"], { blue:0, red:0, yellow:0, black:0 }, 100,400),
+  new CityData("San Francisco", "blue", ["Los Angeles","Chicago","Tokyo","Manila"], { blue:2, red:0, yellow:0, black:0 }, 100,400),
   new CityData("Chicago", "blue", ["San Francisco","Los Angeles","Mexico City","Atlanta","Montreal"], { blue:0, red:0, yellow:0, black:0 }, 200,350),
-  new CityData("Atlanta", "blue", ["Chicago","Washington","Miami"], { blue:0, red:0, yellow:0, black:0 }, 250,400),
+  new CityData("Atlanta", "blue", ["Chicago","Washington","Miami"], { blue:0, red:0, yellow:3, black:0 }, 250,400),
   new CityData("Montreal", "blue", ["Chicago","Washington","New York"], { blue:0, red:0, yellow:0, black:0 }, 250,300),
-  new CityData("New York", "blue", ["Montreal","Washington","London","Madrid"], { blue:0, red:0, yellow:0, black:0 }, 300,280),
+  new CityData("New York", "blue", ["Montreal","Washington","London","Madrid"], { blue:3, red:1, yellow:0, black:2 }, 300,280),
   new CityData("Washington", "blue", ["Atlanta","Miami","Montreal","New York"], { blue:0, red:0, yellow:0, black:0 }, 300,380),
-  new CityData("London", "blue", ["New York","Madrid","Paris","Essen"], { blue:0, red:0, yellow:0, black:0 }, 400,250),
+  new CityData("London", "blue", ["New York","Madrid","Paris","Essen"], { blue:1, red:1, yellow:1, black:1 }, 400,250),
   new CityData("Madrid", "blue", ["New York","London","Paris","Sao Paulo","Algiers"], { blue:0, red:0, yellow:0, black:0 }, 380,320),
   new CityData("Paris", "blue", ["London","Madrid","Essen","Milan","Algiers"], { blue:0, red:0, yellow:0, black:0 }, 450,280),
   new CityData("Essen", "blue", ["London","Paris","Milan","St. Petersburg"], { blue:0, red:0, yellow:0, black:0 }, 500,250),

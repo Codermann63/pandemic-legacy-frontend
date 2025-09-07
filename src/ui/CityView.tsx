@@ -1,18 +1,18 @@
 import React from "react";
-import { CityData, CubeColor } from "../data/cities";
+import { CityData, CubeColor } from "../data/data";
 import { City } from "../domain/City";
+import { Player } from "../domain/Player";
+import { GameState } from "../domain/GameState";
 
 type CityViewProps = {
-  key: string;
   city: City;
-  players: Player[];
+  gameState: GameState;
   onMove: (cityName: string) => void;
   onTreat: (cityName: string, color: CubeColor) => void;
   movingId: string | null;
 };
 
-export default function CityView({ key, city, players, onMove, onTreat, movingId }: CityViewProps) {
-  const cityPlayers = players.filter((p) => p.location === city.name).filter(p => p.id !== movingId);
+export default function CityView({ city, gameState, onMove, onTreat, movingId }: CityViewProps) {
   const visibleCubes = Object.entries(city.cubes).filter(([, count]) => count !== 0);
 
   return (
@@ -34,12 +34,14 @@ export default function CityView({ key, city, players, onMove, onTreat, movingId
           gap: "5px",
         }}
       >
-        {cityPlayers.map((p) => (
-          <img
-            key={p.id}
-            src={p.pawn}
-            alt={p.name}
-            title={p.name}
+        {gameState.players.filter((p) => p.location === city.name && p.id !== movingId).map((p) => {
+          console.log(p, city.name);
+          return (
+            <img
+              key={p.id}
+              src={p.img}
+              alt={p.name}
+              title={p.name}
             style={{
               width: "25px",
               height: "25px",
@@ -47,7 +49,7 @@ export default function CityView({ key, city, players, onMove, onTreat, movingId
               filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.6))",
             }}
           />
-        ))}
+        )})}
       </div>
 
       {/* Wrapper ensures cubes don't shift the city box (absolute positioning) */}

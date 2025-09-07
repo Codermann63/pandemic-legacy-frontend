@@ -1,22 +1,22 @@
 import React, { useMemo } from "react";
 import CityView from "./CityView";
 import PlayerLayer from "./PlayerLayer";
-import { CityData, CubeColor } from "../data/cities";
+import { CityData, CubeColor } from "../data/data";
 import { Network } from "../infrastructure/Network";
 import Roads from "./Roads";
 import { City } from "../domain/City";
+import { GameState } from "../domain/GameState";
 
 type BoardProps = {
-  players: any[];
+  gameState: GameState;
   onMove: (cityName: string) => void;
   onTreat: (cityName: string, cubeColor: CubeColor) => void;
-  network: Network;
   movingId: string | null;
   visualPos: Record<string, { x: number; y: number }>;
   animDuration?: number;
 };
 
-export default function Board({ players, onMove, onTreat, network, movingId, visualPos, animDuration = 600 }: BoardProps) {
+export default function Board({ gameState, onMove, onTreat, movingId, visualPos, animDuration = 600 }: BoardProps) {
 
   return (
     <div
@@ -31,15 +31,15 @@ export default function Board({ players, onMove, onTreat, network, movingId, vis
       }}
     >
       {
-        <Roads network={network} />
+        <Roads network={gameState.network} />
       }
 
       {/* Cities */}
-      {Array.from(network.cities.values()).map((city) => (
+      {Array.from(gameState.network.cities.values()).map((city) => (
         <CityView
           key={city.name}
           city={city}
-          players={players}
+          gameState={gameState}
           onMove={onMove}
           onTreat={onTreat}
           movingId={movingId}
@@ -47,7 +47,7 @@ export default function Board({ players, onMove, onTreat, network, movingId, vis
       ))}
 
       {/* Moving pawn overlay */}
-      <PlayerLayer movingId={movingId} players={players} visualPos={visualPos} duration={animDuration} />
+      <PlayerLayer movingId={movingId} players={gameState.players} visualPos={visualPos} duration={animDuration} />
     </div>
   );
 }
