@@ -10,17 +10,6 @@ type RoadProps = {
 
 export default function Roads({ network }: RoadProps) {
 
-  const segments = useMemo(() => {
-    return network.roadList.map(([a, b]) => {
-      if (network.cities.get(a) === undefined || network.cities.get(b) === undefined){ alert("City not found in network, drawing Roads" +a + b);return null;}
-          const A = {x:network.cities.get(a)!.x, y:network.cities.get(a)!.y};
-          const B = {x:network.cities.get(b)!.x, y:network.cities.get(b)!.y};
-          if (!A || !B) return null;
-    });
-
-
-  }, [network]);
-
   return (
     <div>
     {/* Roads (SVG overlay) */}
@@ -39,6 +28,8 @@ export default function Roads({ network }: RoadProps) {
           const A = {x:network.cities.get(a)!.x, y:network.cities.get(a)!.y};
           const B = {x:network.cities.get(b)!.x, y:network.cities.get(b)!.y};
           if (!A || !B) return null;
+          if (A.x < 250 && B.x > 1750) {B.x -= 2000;}
+          if (A.x > 1750 && B.x < 250) {B.x += 2000;}
           return (
             <line
               key={`${a}-${b}`}

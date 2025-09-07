@@ -33,6 +33,6 @@ export default function PlayerLayer({ movingId, players, visualPos, duration = 6
         }}
         ></img>
     )
-    console.log("Rendering moving pawn:", r);
+
     return r
 }
