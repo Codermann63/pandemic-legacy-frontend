@@ -1,6 +1,16 @@
 import React from "react";
+import { CityData, CubeColor } from "../data/cities";
 
-export default function City({ city, players, onMove, onTreat, movingId }) {
+type CityProps = {
+  key: string;
+  city: CityData;
+  players: Player[];
+  onMove: (cityName: string) => void;
+  onTreat: (cityName: string, color: CubeColor) => void;
+  movingId: string | null;
+};
+
+export default function City({ key, city, players, onMove, onTreat, movingId }: CityProps) {
   const cityPlayers = players.filter((p) => p.location === city.name).filter(p => p.id !== movingId);
   const visibleCubes = Object.entries(city.cubes).filter(([, count]) => count !== 0);
 
@@ -107,7 +117,7 @@ export default function City({ city, players, onMove, onTreat, movingId }) {
           </button>
           <button
             style={{ fontSize: "5px", padding: "5px 5px" }}
-            onClick={() => onTreat(city.name)}
+            onClick={() => onTreat(city.name, "blue")}
           >
             Treat
           </button>

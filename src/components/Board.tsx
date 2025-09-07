@@ -1,9 +1,20 @@
 // src/components/Board.js
 import React, { useMemo } from "react";
-import City from "./City";
+import City from "../domain/City";
 import PlayerLayer from "./PlayerLayer";
+import { CityData, CubeColor } from "../data/cities";
 
-export default function Board({ players, onMove, onTreat, cities, movingId, visualPos, animDuration = 600 }) {
+type BoardProps = {
+  players: any[];
+  onMove: (cityName: string) => void;
+  onTreat: (cityName: string, cubeColor: CubeColor) => void;
+  cities: CityData[];
+  movingId: string | null;
+  visualPos: Record<string, { x: number; y: number }>;
+  animDuration?: number;
+};
+
+export default function Board({ players, onMove, onTreat, cities, movingId, visualPos, animDuration = 600 }: BoardProps) {
   // roads to draw
   const roads = useMemo(
     () => Array.from(new Set (cities.flatMap((c) =>

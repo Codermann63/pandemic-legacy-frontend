@@ -1,8 +1,19 @@
 // src/components/BoardViewport.js
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import Board from "./Board";
+import { CityData, CubeColor } from "../data/cities";
 
-export default function BoardViewport({ players, cities, onMove, onTreat, movingId, visualPos, animDuration = 600 }) {
+type BoardViewportProps = {
+  players: Player[];
+  cities: CityData[];
+  onMove: (cityName: string) => void;
+  onTreat: (cityName: string, cubeColor: CubeColor) => void;
+  movingId: string | null;
+  visualPos: Record<string, { x: number; y: number }>;
+  animDuration?: number;
+};
+
+export default function BoardViewport({ players, cities, onMove, onTreat, movingId, visualPos, animDuration = 600 }: BoardViewportProps) {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [start, setStart] = useState({ x: 0, y: 0 });
@@ -15,9 +26,9 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
   const boardHeight = 1200;
 
   // ---- helpers ----
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-  const clampY = (y, s) => {
+  const clampY = (y: number, s: number) => {
     const scaledH = boardHeight * s;
     const minY = Math.min(0, viewportHeight - scaledH);
     const maxY = 0;
@@ -33,11 +44,11 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
   }, [offset.x, scale]);
 
   // ---- mouse handlers ----
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setDragging(true);
     setStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
     // --- calculate board-space coordinates ---
-    const rect = e.currentTarget.getBoundingClientRect();
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect(); // TODO: check if there can be errors
     const mouseX = e.clientX - rect.left; // cursor X in viewport
     const mouseY = e.clientY - rect.top;  // cursor Y in viewport
 
@@ -49,7 +60,7 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
   };
 
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!dragging) return;
     const newX = e.clientX - start.x;       // horizontal is free (no clamp)
     const newY = clampY(e.clientY - start.y, scale); // vertical clamped
@@ -58,14 +69,14 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
 
   const handleMouseUp = () => setDragging(false);
 
-  const handleWheel = (e) => {
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     const zoomStep = 0.1;
     const direction = e.deltaY < 0 ? 1 : -1;
     const newScale = Math.min(Math.max(0.5, scale + direction * zoomStep), 3);
 
-    const rect = e.currentTarget.getBoundingClientRect();
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect(); // TODO: check if there can be errors
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
@@ -84,7 +95,7 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
 
 
   // Camera follow:
-  const rafRef = useRef(null);
+  const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef(0);
 
   useEffect(() => {
@@ -92,7 +103,7 @@ export default function BoardViewport({ players, cities, onMove, onTreat, moving
     const pos = visualPos?.[movingId];
     if (!pos) return;
 
-    const follow = (ts) => {
+    const follow = (ts: number) => {
       if (dragging) return;
 
       const desiredX = viewportWidth / 2 - pos.x * scale;

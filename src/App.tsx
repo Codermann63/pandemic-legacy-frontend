@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import BoardViewport from "./components/BoardViewport";
 import { v4 as uuid } from "uuid";
-import { cities as cityData } from "./data/cities";
+import { CityData, cities as cityData, CubeColor } from "./data/cities";
 
 const ANIM_MS = 600;
 
@@ -10,9 +10,9 @@ function App() {
     { id: uuid(), name: "Player 1", location: "Atlanta", pawn: "/pawn-red.png" },
     { id: uuid(), name: "Player 2", location: "Atlanta", pawn: "/pawn-blue.png" },
   ]);
-  const [cities, setCities] = useState(cityData);
+  const [cities, setCities] = useState<CityData[]>(cityData);
 
-  const [movingId, setMovingId] = useState(null);
+  const [movingId, setMovingId] = useState<string | null>(null);
   const [visualPos, setVisualPos] = useState({}); // { [playerId]: {x,y} }
 
   const cityByName = useMemo(() => {
@@ -21,7 +21,7 @@ function App() {
     return m;
   }, [cities]);
 
-  const handleMove = (targetCityName) => {
+  const handleMove = (targetCityName: string) => {
     setPlayers((prev) => {
       const arr = [...prev];
       const active = arr[0]; // demo: Player 1 is active
@@ -67,12 +67,12 @@ function App() {
     });
   };
 
-  const handleTreat = (cityName) => {
+  const handleTreat = (cityName: string, color: CubeColor) => {
     setCities((prev) =>
       prev.map((c) => {
         if (c.name === cityName) {
           const cubes = { ...c.cubes };
-          if (cubes[c.color] > 0) cubes[c.color] -= 1;
+          if (cubes[color] > 0) cubes[color] -= 1;
           return { ...c, cubes };
         }
         return c;

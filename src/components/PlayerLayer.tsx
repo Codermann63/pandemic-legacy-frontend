@@ -1,6 +1,14 @@
 import React from "react";
 
-export default function PlayerLayer({ movingId, players, visualPos, duration = 600}){
+type PlayerLayerProps = {
+    movingId: string | null;
+    players: Player[];
+    visualPos: Record<string, { x: number; y: number }>;
+    duration?: number;
+}
+
+
+export default function PlayerLayer({ movingId, players, visualPos, duration = 600}: PlayerLayerProps){
     if (!movingId) return null;
     const player = players.find((p) => p.id === movingId);
     const pos = visualPos[movingId];
@@ -18,7 +26,7 @@ export default function PlayerLayer({ movingId, players, visualPos, duration = 6
             width: "25px",
             height: "25px",
             objectFit: "contain",
-            pointersEvents: "none",
+            pointerEvents: "none",
             filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.6))",
             transition: `left ${duration}ms ease, top ${duration}ms ease`,
             zIndex: 1000,
