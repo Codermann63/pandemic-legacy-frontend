@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import BoardViewport from "./ui/BoardViewport";
 import { v4 as uuid } from "uuid";
-import { CityData, cities as cityData, CubeColor } from "./data/data";
+import { CityData, cities as cityData, type CubeColor } from "./data/data";
 import { Network } from "./domain/Network";
 import { Player } from "./domain/Player";
 import { GameState } from "./domain/GameState";

@@ -1,8 +1,6 @@
-import React from "react";
-import { CityData, CubeColor } from "../data/data";
+import type {  CubeColor } from "../data/data";
 import { City } from "../domain/City";
 import { Player } from "../domain/Player";
-import { GameState } from "../domain/GameState";
 
 type CityViewProps = {
   city: City;

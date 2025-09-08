@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import CityView from "./CityView";
 import PlayerLayer from "./PlayerLayer";
-import { CityData, CubeColor } from "../data/data";
+import { CityData, type CubeColor } from "../data/data";
 import { Network } from "../domain/Network";
 import Roads from "./Roads";
 import { City } from "../domain/City";

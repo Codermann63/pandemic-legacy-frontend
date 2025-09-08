@@ -1,4 +1,4 @@
- import { CubeColor } from "../data/data";
+ import type { CubeColor } from "../data/data";
 
 
 export class City {
